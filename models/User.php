@@ -14,8 +14,7 @@ class User {
 
 	public function read() {
 		$sql = 'SELECT id, password, email FROM '.$this->table;
-
-		// Prepare statement
+		
 		$stmt = $this->conn->prepare($sql);
 
 		$stmt->execute();

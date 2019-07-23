@@ -10,7 +10,6 @@ $db = $database->connect();
 
 $user = new User($db);
 
-// test id: w15ueyr218212hj31289sdal
 $user->id = isset($_GET['id']) ? $_GET['id'] : die();
 
 $user->read_single();
