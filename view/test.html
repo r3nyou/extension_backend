@@ -1,0 +1,23 @@
+<div id="content"></div>
+
+<script src='https://cdn.bootcss.com/socket.io/2.0.3/socket.io.js'></script>
+<script>
+const socket = io('http://127.0.0.1:3120');
+
+const uid = Date.parse(new Date());
+
+socket.on('connect', function(){
+    socket.emit('login', uid);
+});
+
+const contentDiv = document.getElementById('content');
+socket.on('new msg', function(content) {
+    //console.log(content);
+    contentDiv.innerHTML += `<p>${content}</p>`;
+});
+
+socket.on('id', function(id) {
+    //console.log(id);
+    contentDiv.innerHTML += `<p>id:${id}</p>`;
+});
+</script>
