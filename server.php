@@ -1,4 +1,7 @@
 <?php 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Method: GET');
+
 require_once __DIR__.'/vendor/autoload.php';
 
 use Workerman\Worker;
@@ -8,8 +11,8 @@ $uidmap = array();
 
 $io = new SocketIO(3120);
 
-$io->on('connection', function($socket) {
-	$socket->on('login', function($uid)use($socket) {
+$io->on('connection', function($socket)use($io) {
+	$socket->on('login', function($uid)use($socket, $io) {
 		global $uidmap;
 
 		if(isset($socket->uid)) {
@@ -27,11 +30,23 @@ $io->on('connection', function($socket) {
 			$socket->join($uid);
 
 			$socket->uid = $uid;
-
-			// test
-			$socket->emit('id', $socket->uid);			
+			
+			//echo $socket->uid.PHP_EOL;	
 		}		
 	});
+
+	$socket->on('device msg', function($data)use($io) {
+		global $uidmap;
+		
+		extract(json_decode($data, true));
+
+		if($to) {
+			$io->to($to)->emit('new msg', $content);
+		} else {
+			$io->emit('new msg', $data);	
+		}		
+	});
+
 
 	$socket->on('disconnect', function()use($socket) {
 		if(isset($socket->uid)) {
@@ -71,7 +86,7 @@ $io->on('workerStart', function()use($io) {
 			}
 
 		} else {
-			return $connection->send('fail, $_GET["msg"] not found');
+			return $connection->send('fail, $_GET["content"] not found');
 		}		
 	};
 
