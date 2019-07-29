@@ -10,11 +10,13 @@ $db = $database->connect();
 
 $user = new User($db);
 
-$user->id = isset($_GET['id']) ? $_GET['id'] : die();
+$user->email = isset($_GET['email']) ? $_GET['email'] : die();
+$user->password = isset($_GET['password']) ? $_GET['password'] : die();
 
 $user->read_single();
 
 $user_arr = array(
+	'sn' => $user->sn,
 	'id' => $user->id,
 	'password' => $user->password,
 	'email' => $user->email

@@ -1,6 +1,6 @@
-<div id="content"></div>
-
 <button id='start'>start</button>
+
+<div id="content"></div>
 
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
 <script src='https://cdn.bootcss.com/socket.io/2.0.3/socket.io.js'></script>
@@ -10,7 +10,7 @@ const socket = io('http://127.0.0.1:3120');
 
 const uid = 'B2221E95F7C673FFA205A97D40A8CDE9';
 
-socket.on('connect', function(){
+socket.on('connect', function() {
     socket.emit('login', uid);
 });
 
