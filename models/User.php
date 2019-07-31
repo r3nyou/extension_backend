@@ -14,8 +14,7 @@ class User {
 
 	public function read() {
 		$sql = 'SELECT id, password, email FROM '.$this->table;
-
-		// Prepare statement
+		
 		$stmt = $this->conn->prepare($sql);
 
 		$stmt->execute();
@@ -24,18 +23,21 @@ class User {
 	}
 
 	public function read_single() {
-		$sql  = 'SELECT id, password, email FROM '.$this->table.' WHERE id = ? LIMIT 0,1';
+		$sql  = 'SELECT sn, id, password, email FROM '.$this->table.'
+			 WHERE email = :email
+			 AND password = :password LIMIT 0,1';
 
 		// Prepare statement
 		$stmt = $this->conn->prepare($sql);
 
-		$stmt->bindParam(1, $this->id);
+		$stmt->bindParam(':email', $this->email);
+		$stmt->bindParam(':password', $this->password);
 
 		$stmt->execute();
 
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
-		$this->password = $row['password'];
-		$this->email = $row['email'];
+		$this->sn = $row['sn'];
+		$this->id = $row['id'];		
 	}
 
 	private function guid(){

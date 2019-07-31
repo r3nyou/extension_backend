@@ -1,6 +1,7 @@
 <?php  
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
+header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Method,Authorization,X-Requested-With');
 
 include_once '../../config/Database.php';
 include_once '../../models/User.php';
@@ -10,12 +11,13 @@ $db = $database->connect();
 
 $user = new User($db);
 
-// test id: w15ueyr218212hj31289sdal
-$user->id = isset($_GET['id']) ? $_GET['id'] : die();
+$user->email = isset($_GET['email']) ? $_GET['email'] : die();
+$user->password = isset($_GET['password']) ? $_GET['password'] : die();
 
 $user->read_single();
 
 $user_arr = array(
+	'sn' => $user->sn,
 	'id' => $user->id,
 	'password' => $user->password,
 	'email' => $user->email
