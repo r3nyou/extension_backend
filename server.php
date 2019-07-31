@@ -28,7 +28,7 @@ $io->on('connection', function($socket)use($io) {
 
 			$socket->uid = $uid;
 			
-			echo $socket->uid.PHP_EOL;
+			//echo $socket->uid.PHP_EOL;
 		}		
 	});
 
@@ -37,12 +37,14 @@ $io->on('connection', function($socket)use($io) {
 		
 		extract(json_decode($data, true));
 
-		if($to) {
-			$io->to($to)->emit('new msg', $content);
-			echo 'to:' . $to . ' say: ' . $_GET['content'].PHP_EOL;
-		} else {
-			$io->emit('new msg', $data);	
-		}		
+		if($content) {
+			if($to) {
+				$io->to($to)->emit('new msg', $content);
+				//echo 'to:' . $to . ' say: ' . $content.PHP_EOL;
+			} else {
+				$io->emit('new msg', $content);	
+			}
+		}
 	});
 
 
