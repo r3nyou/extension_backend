@@ -1,9 +1,9 @@
 <?php
 class Database {
-    private $host = '35.201.195.234';
+    private $host = null;
     private $db_name = 'extension';
     private $username = 'root';
-    private $password = 'iagily';
+    private $password = '61g4iagily';
     private $conn;
 
     public function connect() {
