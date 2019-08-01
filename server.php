@@ -32,17 +32,19 @@ $io->on('connection', function($socket)use($io) {
 		}		
 	});
 
-	$socket->on('device msg', function($data)use($io) {
+	$socket->on('device msg', function($data)use($socket, $io) {
 		global $uidmap;
 		
 		extract(json_decode($data, true));
 
 		if($content) {
 			if($to) {
-				$io->to($to)->emit('new msg', $content);
+				$socket->to($to)->broadcast->emit('new msg', $content);
+				//$io->to($to)->emit('new msg', $content);
 				//echo 'to:' . $to . ' say: ' . $content.PHP_EOL;
 			} else {
-				$io->emit('new msg', $content);	
+				$socket->broadcast->emit('new msg', $content);
+				//$io->emit('new msg', $content);
 			}
 		}
 	});
