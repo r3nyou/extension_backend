@@ -40,3 +40,35 @@ Stack trace:
 #27 C:\xampp\htdocs\extension_backend\server.php(93): Workerman\Worker::runAll()
 #28 {main}
 2019-07-26 07:40:17 pid:1 Worker process terminated
+2019-08-01 08:34:38 pid:1 Error: Call to a member function to() on null in C:\xampp\htdocs\extension_backend\server.php:42
+Stack trace:
+#0 [internal function]: {closure}('{"to":"9689439D...')
+#1 C:\xampp\htdocs\extension_backend\vendor\workerman\phpsocket.io\src\Event\Emitter.php(93): call_user_func_array(Object(Closure), Array)
+#2 [internal function]: PHPSocketIO\Event\Emitter->emit('device msg', '{"to":"9689439D...')
+#3 C:\xampp\htdocs\extension_backend\vendor\workerman\phpsocket.io\src\Socket.php(307): call_user_func_array(Array, Array)
+#4 C:\xampp\htdocs\extension_backend\vendor\workerman\phpsocket.io\src\Socket.php(269): PHPSocketIO\Socket->onevent(Array)
+#5 C:\xampp\htdocs\extension_backend\vendor\workerman\phpsocket.io\src\Client.php(202): PHPSocketIO\Socket->onpacket(Array)
+#6 [internal function]: PHPSocketIO\Client->ondecoded(Array)
+#7 C:\xampp\htdocs\extension_backend\vendor\workerman\phpsocket.io\src\Event\Emitter.php(93): call_user_func_array(Array, Array)
+#8 C:\xampp\htdocs\extension_backend\vendor\workerman\phpsocket.io\src\Parser\Decoder.php(34): PHPSocketIO\Event\Emitter->emit('decoded', Array)
+#9 C:\xampp\htdocs\extension_backend\vendor\workerman\phpsocket.io\src\Client.php(182): PHPSocketIO\Parser\Decoder->add('2["device msg",...')
+#10 [internal function]: PHPSocketIO\Client->ondata('2["device msg",...')
+#11 C:\xampp\htdocs\extension_backend\vendor\workerman\phpsocket.io\src\Event\Emitter.php(93): call_user_func_array(Array, Array)
+#12 C:\xampp\htdocs\extension_backend\vendor\workerman\phpsocket.io\src\Engine\Socket.php(187): PHPSocketIO\Event\Emitter->emit('data', '2["device msg",...')
+#13 [internal function]: PHPSocketIO\Engine\Socket->onPacket(Array)
+#14 C:\xampp\htdocs\extension_backend\vendor\workerman\phpsocket.io\src\Event\Emitter.php(93): call_user_func_array(Array, Array)
+#15 C:\xampp\htdocs\extension_backend\vendor\workerman\phpsocket.io\src\Engine\Transport.php(56): PHPSocketIO\Event\Emitter->emit('packet', Array)
+#16 C:\xampp\htdocs\extension_backend\vendor\workerman\phpsocket.io\src\Engine\Transport.php(61): PHPSocketIO\Engine\Transport->onPacket(Array)
+#17 [internal function]: PHPSocketIO\Engine\Transport->onData('42["device msg"...')
+#18 C:\xampp\htdocs\extension_backend\vendor\workerman\phpsocket.io\src\Engine\Transports\WebSocket.php(26): call_user_func(Array, '42["device msg"...')
+#19 [internal function]: PHPSocketIO\Engine\Transports\WebSocket->onData2(Object(Workerman\Connection\TcpConnection), '42["device msg"...')
+#20 C:\xampp\htdocs\extension_backend\vendor\workerman\workerman\Connection\TcpConnection.php(658): call_user_func(Array, Object(Workerman\Connection\TcpConnection), '42["device msg"...')
+#21 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #46)
+#22 C:\xampp\htdocs\extension_backend\vendor\workerman\workerman\Events\Select.php(294): call_user_func_array(Array, Array)
+#23 C:\xampp\htdocs\extension_backend\vendor\workerman\workerman\Worker.php(2357): Workerman\Events\Select->loop()
+#24 C:\xampp\htdocs\extension_backend\vendor\workerman\workerman\Worker.php(1351): Workerman\Worker->run()
+#25 C:\xampp\htdocs\extension_backend\vendor\workerman\workerman\Worker.php(1294): Workerman\Worker::forkWorkersForWindows()
+#26 C:\xampp\htdocs\extension_backend\vendor\workerman\workerman\Worker.php(509): Workerman\Worker::forkWorkers()
+#27 C:\xampp\htdocs\extension_backend\server.php(99): Workerman\Worker::runAll()
+#28 {main}
+2019-08-01 08:34:38 pid:1 Worker process terminated

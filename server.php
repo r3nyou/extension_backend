@@ -32,7 +32,7 @@ $io->on('connection', function($socket)use($io) {
 		}		
 	});
 
-	$socket->on('device msg', function($data)use($io) {
+	$socket->on('device msg', function($data)use($socket, $io) {
 		global $uidmap;
 		
 		extract(json_decode($data, true));
