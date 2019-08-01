@@ -3,7 +3,7 @@ class Database {
     private $host = '35.201.195.234';
     private $db_name = 'extension';
     private $username = 'root';
-    private $password = 'god122186622';
+    private $password = 'iagily';
     private $conn;
 
     public function connect() {
