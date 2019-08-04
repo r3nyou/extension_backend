@@ -6,6 +6,20 @@ use PHPSocketIO\SocketIO;
 
 $uidmap = array();
 
+function setStatus($uid, $content) {
+	global $uidmap;
+
+	extract(json_decode($content, true));
+	
+	if($cmd == 'start') {
+		$uidmap[$uid] = $msg;
+		//echo 'to:' . $uid . ' say: ' . $msg.PHP_EOL;
+	} else if ($cmd == 'stop') {
+		$uidmap[$uid] = 'stop';
+		//echo 'to:' . $uid . ' say: stop'.PHP_EOL;
+	}
+}
+
 $io = new SocketIO(3120);
 
 $io->on('connection', function($socket)use($io) {
@@ -18,17 +32,17 @@ $io->on('connection', function($socket)use($io) {
 			$uid = (string) $uid;
 
 			if(!isset($uidmap[$uid])) {
-				$uidmap[$uid] = 0;
+				$uidmap[$uid] = 'stop';
 			}
 
-			$uidmap[$uid]++;
+			//$uidmap[$uid]++;
 
 			// 加入群組
 			$socket->join($uid);
 
 			$socket->uid = $uid;
 			
-			//echo $socket->uid.PHP_EOL;
+			echo $socket->uid.PHP_EOL;
 		}		
 	});
 
@@ -41,14 +55,21 @@ $io->on('connection', function($socket)use($io) {
 			if($to) {
 				$socket->to($to)->broadcast->emit('new msg', $content);
 				//$io->to($to)->emit('new msg', $content);
-				//echo 'to:' . $to . ' say: ' . $content.PHP_EOL;
+				echo 'to:' . $to . ' say: ' . $content.PHP_EOL;
+				setStatus($to, $content);
 			} else {
 				$socket->broadcast->emit('new msg', $content);
 				//$io->emit('new msg', $content);
+				//echo 'no to say: ' . $content.PHP_EOL;
 			}
 		}
 	});
 
+	$socket->on('device status', function($uid)use($socket) {
+		global $uidmap;
+		//echo 'sync'.$uidmap[$uid].PHP_EOL;
+		$socket->emit('sync status', $uidmap[$uid]);
+	});
 
 	$socket->on('disconnect', function()use($socket) {
 		if(isset($socket->uid)) {
@@ -77,7 +98,6 @@ $io->on('workerStart', function()use($io) {
 			
 			if($to) {
 				$io->to($to)->emit('new msg', $_GET['content']);
-				//echo 'to:' . $to . ' say: ' . $_GET['content'].PHP_EOL;
 			} else {
 				$io->emit('new msg', $_GET['content']);
 			}
