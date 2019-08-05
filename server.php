@@ -13,10 +13,8 @@ function setStatus($uid, $content) {
 	
 	if($cmd == 'start') {
 		$uidmap[$uid] = $msg;
-		//echo 'to:' . $uid . ' say: ' . $msg.PHP_EOL;
 	} else if ($cmd == 'stop') {
 		$uidmap[$uid] = 'stop';
-		//echo 'to:' . $uid . ' say: stop'.PHP_EOL;
 	}
 }
 
@@ -55,7 +53,7 @@ $io->on('connection', function($socket)use($io) {
 			if($to) {
 				$socket->to($to)->broadcast->emit('new msg', $content);
 				//$io->to($to)->emit('new msg', $content);
-				echo 'to:' . $to . ' say: ' . $content.PHP_EOL;
+				//echo 'to:' . $to . ' say: ' . $content.PHP_EOL;
 				setStatus($to, $content);
 			} else {
 				$socket->broadcast->emit('new msg', $content);
@@ -86,9 +84,8 @@ $io->on('connection', function($socket)use($io) {
 
 // 訪問此 port 可向客戶端推播
 $io->on('workerStart', function()use($io) {
-	$inner_worker = new Worker('http://0.0.0.0:9191');
+	$inner_worker = new Worker('http://0.0.0.0:9191');	
 	
-	// 客戶端發送資料時觸發事件
 	$inner_worker->onMessage = function($connection, $data)use($io) {
 		global $uidmap;
 
