@@ -40,6 +40,23 @@ class User {
 		$this->id = $row['id'];		
 	}
 
+	public function get_password() {
+		$sql  = 'SELECT sn, id, password, email FROM '.$this->table.'
+			 WHERE id = :id LIMIT 0,1';
+
+		// Prepare statement
+		$stmt = $this->conn->prepare($sql);
+
+		$stmt->bindParam(':id', $this->id);
+
+		$stmt->execute();
+
+		$row = $stmt->fetch(PDO::FETCH_ASSOC);
+		$this->sn = $row['sn'];
+		$this->email = $row['email'];
+		$this->password = $row['password'];
+	}
+
 	private function guid(){
 	    if (function_exists('com_create_guid')){
 	        return com_create_guid();
